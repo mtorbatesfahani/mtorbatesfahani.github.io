@@ -107,8 +107,10 @@
     }
   }
 
+  /* Scripts load at the end of <body>, so the page elements already exist:
+     run immediately (before first paint where possible) to avoid layout shift. */
   function ready(fn) {
-    if (document.readyState !== "loading") fn();
+    if (document.body) fn();
     else document.addEventListener("DOMContentLoaded", fn);
   }
   ready(function () { initNav(); applyConfig(); });

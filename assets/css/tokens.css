@@ -9,14 +9,24 @@
   src: url("../fonts/SourceSans3-Variable.woff") format("woff");
   font-weight: 200 900;
   font-style: normal;
-  font-display: swap;
+  font-display: optional; /* no text reflow after first paint (prevents layout shift); font is preloaded */
 }
 @font-face {
   font-family: "Source Sans 3";
   src: url("../fonts/SourceSans3-Italic-Variable.woff") format("woff");
   font-weight: 200 900;
   font-style: italic;
-  font-display: swap;
+  font-display: optional; /* no text reflow after first paint (prevents layout shift); font is preloaded */
+}
+/* Metric-matched fallback: Arial/Helvetica scaled to Source Sans 3's width,
+   so text wraps the same before and after the web font loads (prevents layout shift). */
+@font-face {
+  font-family: "Source Sans 3 Fallback";
+  src: local("Arial"), local("ArialMT"), local("Helvetica"), local("Liberation Sans"), local("Arimo");
+  size-adjust: 93.45%;
+  ascent-override: 109.6%;
+  descent-override: 42.8%;
+  line-gap-override: 0%;
 }
 /* Source Serif 4 (headings): add the font file to assets/fonts/ and
    remove the comment markers below. See README.md, "Adding the heading font".
@@ -25,7 +35,7 @@
   src: url("../fonts/SourceSerif4-Variable.woff2") format("woff2");
   font-weight: 200 900;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 */
 
@@ -46,7 +56,7 @@
 
   /* Type */
   --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
-  --font-sans: "Source Sans 3", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  --font-sans: "Source Sans 3", "Source Sans 3 Fallback", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
   --fs-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
   --fs-h1: clamp(1.9rem, 1.5rem + 1.6vw, 2.75rem);
   --fs-h2: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);

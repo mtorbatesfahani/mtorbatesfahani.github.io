@@ -24,19 +24,26 @@ publications.html     Publications (with filters)
 projects.html         Research Projects
 experience.html       Professional Experience
 honors.html           Honors & Service
+gallery.html          Gallery (content comes from assets/data/gallery.js)
 contact.html          Contact
 404.html              "Page not found" page (GitHub Pages uses it automatically)
-sitemap.xml           For search engines (edit USERNAME before deployment)
+sitemap.xml           For search engines (set to https://mtorbatesfahani.github.io/)
 .nojekyll             Tells GitHub Pages to serve the files exactly as they are
-robots.txt            For search engines (edit USERNAME before deployment)
+robots.txt            For search engines (set to https://mtorbatesfahani.github.io/)
 assets/
   css/tokens.css      Colours, fonts, sizes (design system)
   css/site.css        Layout and components
   js/site-config.js   ← THE FILE YOU WILL EDIT MOST
   js/site.js          Menu and configuration logic (no edits needed)
   js/publications.js  Publication filters (no edits needed)
+  js/gallery.js       Gallery display and photo viewer (no edits needed)
+  data/gallery.js     ← GALLERY ENTRIES: add photos and videos here
+  gallery/photos/     Gallery photos
+  gallery/videos/     Gallery videos (and .vtt captions)
   fonts/              Source Sans 3 web fonts + licence
   img/favicon.svg     Browser tab icon
+  img/portrait.*      Homepage headshot (.webp and .jpg)
+  img/cover-*.*       Homepage cover photograph (1536 and 768 px; .webp and .jpg)
   docs/               Put approved PDF documents here
 ```
 
@@ -89,20 +96,92 @@ Headings currently use Georgia, a built-in serif font. To use the approved Sourc
 2. Convert or rename the variable font to `SourceSerif4-Variable.woff2` (woff2 recommended), copy it into `assets/fonts/`, and add the licence file `OFL-SourceSerif4.txt`.
 3. In `assets/css/tokens.css`, remove the `/*` and `*/` around the "Source Serif 4" block.
 
-## 7. Adding a headshot
+## 7. Headshot
 
-1. Save the photo as `assets/img/portrait.jpg` (about 560 × 680 px).
-2. In `index.html`, replace the `<div class="portrait" …>…</div>` block with:
-   `<img class="portrait" src="assets/img/portrait.jpg" alt="Mehdi Torbat Esfahani" width="280" height="340" style="object-fit:cover">`
+The homepage shows `assets/img/portrait.webp` (or `portrait.jpg` in older browsers). Replace both files when you change the photo. To replace the photo, save the new image under exactly that name and upload it. A portrait-shaped image of about 560 × 680 px works best. The frame crops it to fill (`object-fit: cover`), keeping the top of the photo, so the face stays visible. If the file is missing, the page shows the "MTE" monogram instead.
 
-## 8. Deployment to GitHub Pages (only after final approval)
+## 7b. Homepage cover photograph
 
-1. Create a GitHub repository named exactly `USERNAME.github.io`, replacing USERNAME with your GitHub username. Keep it **private** until you are ready; note that GitHub Pages from a private repository requires a paid plan. On a free plan, the repository must be public when you publish.
-2. Upload every file and folder in this package to the repository root.
-3. In `sitemap.xml` and `robots.txt`, replace `USERNAME` with your username.
-4. Go to repository **Settings → Pages → Build and deployment → Source: Deploy from a branch**, then choose the `main` branch and the `/ (root)` folder.
-5. After a few minutes, the site is live at `https://USERNAME.github.io/`.
-6. **Custom domain later:** add it under Settings → Pages → Custom domain. GitHub creates a `CNAME` file. Then update the addresses in `sitemap.xml` and `robots.txt`. All page links are relative, so nothing else needs to change.
+The homepage uses the LinkedIn-style layout: a full-width cover photograph with the circular headshot overlapping its lower edge. The cover is decorative (`alt=""`), so screen readers skip it. Browsers automatically choose the right size and format:
+
+| File | Used for |
+|---|---|
+| `assets/img/cover-2172.webp` / `cover-2172.jpg` | Very wide screens (full original size) |
+| `assets/img/cover-1536.webp` / `cover-1536.jpg` | Laptops, tablets and high-resolution phones |
+| `assets/img/cover-768.webp` / `cover-768.jpg` | Small phones |
+| `assets/img/portrait.webp` / `portrait.jpg` | Headshot |
+
+WebP is used by modern browsers; the JPEG copies are for older ones. The cover is a 3:1 image and is never stretched: wide screens trim a little from the top and bottom, and phones trim the sides, keeping the crane, skyline and digital-twin building in view.
+
+**To replace the cover:** use only a photograph you have the right to publish. Make 2172, 1536 and 768 px-wide versions, each as JPEG and WebP, with the same file names. Upload all six, replacing the old files. A replacement with a different shape (not 3:1) also needs `width` and `height` updated in `index.html`. The banner shows a wide horizontal band of the photo, so keep the important subjects in the upper-middle part of the image. If the cover files are missing, the banner shows plain navy.
+
+## 7a. Gallery: adding photos and videos
+
+The Gallery page has two sections:
+
+- **Photos**, with three subsections: **Research Results & Figures**, **Field Experiments**, and **Conferences**.
+- **Videos**.
+
+You never edit `gallery.html`. Each photo or video is one entry in **`assets/data/gallery.js`**, and the page places it in the right section automatically. A subsection with no entries shows "Photographs will be added soon." (or "Videos will be added soon.").
+
+1. **Prepare the file.**
+   - Photos: JPEG, about 1600 px on the long side, under 1 MB.
+   - Videos: MP4 (H.264), short, under 25 MB. That is the GitHub web-upload limit per file; files over 100 MB are refused.
+   - Remove location (GPS) data from photos. The tool `prepare_media.py` in your review package does this, and resizes the photo, in one step.
+   - Use only images you have the right to publish, and that show people who agree to appear.
+2. **Name it simply,** with lowercase letters, numbers and dashes and no spaces. Example: `2026-03-crc-presentation.jpg`.
+3. **Upload it** to `assets/gallery/photos/` or `assets/gallery/videos/`.
+4. **Add an entry** at the top of the list in `assets/data/gallery.js`.
+
+   A photo:
+
+```js
+  {
+    type: "photo",
+    section: "field-experiments",  // research-results | field-experiments | conferences
+    src: "assets/gallery/photos/2026-03-field-setup.jpg",
+    alt: "What the photo shows, for screen readers",   // required for photos
+    title: "Optional title",
+    date: "2026-03",               // optional: 2026, 2026-03, or 2026-03-15
+    description: "Optional one or two sentences."
+  },
+```
+
+   A video (no `section` needed; every video goes under Videos):
+
+```js
+  {
+    type: "video",
+    src: "assets/gallery/videos/2026-03-demo.mp4",
+    poster: "assets/gallery/photos/2026-03-demo-poster.jpg",   // optional preview image
+    captions: "assets/gallery/videos/2026-03-demo.vtt",       // optional, recommended
+    title: "Optional title",
+    date: "2026",
+    description: "Optional one or two sentences."
+  },
+```
+
+5. **Check the entry.** Mind the commas between entries and the quotation marks. If an entry is incomplete (no alt text, a missing or misspelled `section`, or a web address instead of a file path), the gallery skips it and shows the reason in the browser console (F12 → Console). The rest of the gallery still works.
+
+Clicking a photo opens a larger view; the arrow keys move between photos in the same subsection, and Esc closes it.
+
+## 8. Updating the live site (https://mtorbatesfahani.github.io/)
+
+The site is served from the repository `mtorbatesfahani.github.io`, branch `main`, folder `/ (root)`. Every file in this package goes to the same path in the repository. Uploading **adds or replaces** files with the same name and path. It **never deletes** other files, so files you added yourself are kept.
+
+**Web upload (no software needed):**
+
+1. Open the repository on GitHub and choose **Add file → Upload files**.
+2. Open the `upload` folder on your computer, select **everything inside it** (not the `upload` folder itself), and drag it onto the page. Folders such as `assets` keep their structure.
+3. On a Mac, hidden files such as `.nojekyll` are not visible. That file is already in the repository and doesn't change, so you don't need to upload it.
+4. Under **Commit changes**, write a short message (for example, "Add Gallery, cover and headshot"), keep **Commit directly to the main branch**, and select **Commit changes**.
+5. After one or two minutes, open https://mtorbatesfahani.github.io/ and press Ctrl+F5 (Cmd+Shift+R on a Mac) to reload without the cache.
+
+**Never** use "Delete" on files or folders unless you mean to, and don't upload the `review`, `screenshots` or `tools` folders from a review package.
+
+**To undo an update:** in the repository, open **Commits**, choose the update's commit, and use **Revert** (in GitHub Desktop: right-click the commit → Revert). The previous version comes back.
+
+**Custom domain later:** add it under Settings → Pages → Custom domain. GitHub creates a `CNAME` file. Then update the addresses in `sitemap.xml` and `robots.txt`. All page links are relative, so nothing else needs to change.
 
 ## 9. Privacy rules for this site
 

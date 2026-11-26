@@ -19,21 +19,21 @@ window.SITE_CONFIG = {
 
   email: "mehdi.torbatesfahani@my.utsa.edu",
 
-  // Academic profile links. Paste the full URL (https://...) once verified.
+  // Academic profile links (full https:// URLs). They open in a new tab.
   // Empty = shown as inactive text "(link forthcoming)".
   profiles: {
-    googleScholar: "",
-    orcid: "",
-    linkedin: "",
-    researchgate: ""
+    googleScholar: "https://scholar.google.com/citations?user=h_LpC_QAAAAJ&hl=en&oi=ao",
+    orcid: "https://orcid.org/0009-0005-9942-5715",
+    linkedin: "https://www.linkedin.com/in/mehditorbat",
+    researchgate: "https://www.researchgate.net/profile/Mehdi-Torbat-Esfahani-2"
   },
 
-  // Downloadable documents. Put the approved PDF in assets/docs/
-  // with this exact file name, then set approved: true.
+  // Documents on the Contact page (View PDF / Download PDF) and the gold CV button.
+  // To update a document, upload the new PDF to assets/docs/ with the SAME file name.
   documents: {
-    cv:       { approved: false, file: "assets/docs/Torbat-Esfahani-CV.pdf" },
-    research: { approved: false, file: "assets/docs/Torbat-Esfahani-Research-Statement.pdf" },
-    teaching: { approved: false, file: "assets/docs/Torbat-Esfahani-Teaching-Statement.pdf" }
+    cv:       { approved: true, file: "assets/docs/mehdi-torbat-esfahani-cv.pdf" },
+    research: { approved: true, file: "assets/docs/mehdi-torbat-esfahani-research-statement.pdf" },
+    teaching: { approved: true, file: "assets/docs/mehdi-torbat-esfahani-teaching-statement.pdf" }
   },
 
   // Footer "Last updated" text.

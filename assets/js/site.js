@@ -19,6 +19,9 @@
   };
 
   function isHttps(url) { return typeof url === "string" && /^https:\/\//i.test(url); }
+  /* Documents must be files inside this site (assets/docs/...pdf). */
+  function safeFile(f) { return typeof f === "string" && /^assets\/docs\/[A-Za-z0-9._-]+\.pdf$/.test(f); }
+  function hidden(t) { var s = document.createElement("span"); s.className = "visually-hidden"; s.textContent = t; return s; }
 
   /* ---------- Mobile navigation ---------- */
   function initNav() {
@@ -78,8 +81,10 @@
         if (isHttps(url)) {
           var a = document.createElement("a");
           a.href = url;
-          a.rel = "noopener";
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
           a.textContent = name;
+          a.appendChild(hidden(" (opens in a new tab)"));
           el.replaceChildren(a);
         }
       });
@@ -90,18 +95,41 @@
       document.querySelectorAll("[data-doc]").forEach(function (el) {
         var key = el.getAttribute("data-doc");
         var d = c.documents[key];
-        if (d && d.approved === true && d.file) {
-          var a = document.createElement("a");
-          a.href = d.file;
-          a.textContent = (DOC_LABELS[key] || key) + " (PDF)";
-          el.replaceChildren(a);
+        if (d && d.approved === true && safeFile(d.file)) {
+          var label = DOC_LABELS[key] || key;
+          var strong = document.createElement("strong");
+          strong.textContent = label;
+          var type = document.createElement("span");
+          type.className = "doc-type";
+          type.textContent = "PDF";
+          var actions = document.createElement("span");
+          actions.className = "doc-actions";
+          var view = document.createElement("a");
+          view.className = "btn btn--outline btn--sm";
+          view.href = d.file;
+          view.target = "_blank";
+          view.rel = "noopener noreferrer";
+          view.textContent = "View PDF";
+          view.appendChild(hidden(": " + label + " (opens in a new tab)"));
+          var dl = document.createElement("a");
+          dl.className = "btn btn--outline btn--sm";
+          dl.href = d.file;
+          dl.setAttribute("download", "Mehdi-Torbat-Esfahani-" + label.replace(/ /g, "-").replace("Curriculum-Vitae", "CV") + ".pdf");
+          dl.textContent = "Download PDF";
+          dl.appendChild(hidden(": " + label));
+          actions.append(view, " ", dl);
+          el.replaceChildren(strong, " ", type, " ", actions);
           el.classList.add("available");
         }
       });
       var cv = c.documents.cv;
-      if (cv && cv.approved === true && cv.file) {
+      if (cv && cv.approved === true && safeFile(cv.file)) {
         document.querySelectorAll("[data-cv-link]").forEach(function (a) {
-          a.setAttribute("href", cv.file);
+          /* keep links that already point at the file (e.g. root-absolute on 404.html) */
+          var h = a.getAttribute("href") || "";
+          if (h.slice(-cv.file.length) !== cv.file) a.setAttribute("href", cv.file);
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
         });
       }
     }

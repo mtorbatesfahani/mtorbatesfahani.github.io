@@ -83,7 +83,9 @@
           a.href = url;
           a.target = "_blank";
           a.rel = "noopener noreferrer";
-          a.textContent = name;
+          var icon = el.querySelector("svg.p-icon"); /* keep the page's icon, if any */
+          if (icon) a.appendChild(icon);
+          a.appendChild(document.createTextNode(name));
           a.appendChild(hidden(" (opens in a new tab)"));
           el.replaceChildren(a);
         }

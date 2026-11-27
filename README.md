@@ -25,6 +25,7 @@ projects.html         Research Projects
 experience.html       Professional Experience
 honors.html           Honors & Service
 gallery.html          Gallery (content comes from assets/data/gallery.js)
+cv.html               Academic Documents & Profiles (gold button in the menu)
 contact.html          Contact
 404.html              "Page not found" page (GitHub Pages uses it automatically)
 sitemap.xml           For search engines (set to https://mtorbatesfahani.github.io/)
@@ -58,7 +59,7 @@ Open the file in any text editor, such as Notepad, TextEdit or VS Code. Change t
 | Ph.D. dates in About > Education | `degreeYears` | `"2023 – 2026"` |
 | Email | `email` | your new address, in quotation marks |
 | Profile links | `profiles.googleScholar`, `orcid`, `linkedin`, `researchgate` | Full `https://...` addresses, now set; they open in a new tab. The same addresses are also written into each page for visitors without JavaScript, so change both, or ask for a rebuild. Empty `""` shows "(link forthcoming)". |
-| CV and statements | `documents.cv` / `research` / `teaching` | Set to `assets/docs/mehdi-torbat-esfahani-cv.pdf`, `...-research-statement.pdf`, `...-teaching-statement.pdf`. **To update a document, upload the new PDF to `assets/docs/` with the same file name**; nothing else needs to change. The gold CV button and the Contact page's View PDF / Download PDF buttons use these files. |
+| CV and statements | `documents.cv` / `research` / `teaching` | Set to `assets/docs/mehdi-torbat-esfahani-cv.pdf`, `...-research-statement.pdf`, `...-teaching-statement.pdf`. **To update a document, upload the new PDF to `assets/docs/` with the same file name**; nothing else needs to change. The View PDF / Download PDF buttons on the Academic Documents & Profiles page (`cv.html`, opened by the gold menu button) and on the Contact page use these files; the homepage "Curriculum Vitae" button opens the CV directly. |
 | Footer date | `lastUpdated` | `"January 2027"` |
 
 **The Ph.D. status is written in one place only: `site-config.js`.** No HTML page contains the status text. Each page holds a neutral fallback ("Doctoral studies in Civil Engineering") that stays true before and after graduation. Visitors without JavaScript see that fallback, and everyone else sees the exact status from the configuration. Changing the three status lines above updates every page at once, so no page can be left with old text.

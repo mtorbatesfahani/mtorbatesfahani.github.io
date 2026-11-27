@@ -49,11 +49,12 @@ ul, ol { margin: 0; }
 .brand:hover { color: var(--white); }
 .nav-toggle { display: none; align-items: center; gap: var(--s2); min-height: 44px; min-width: 44px; padding: 0 var(--s4); background: transparent; color: var(--white); border: 1.5px solid var(--gold); border-radius: var(--radius-sm); font: 600 1rem var(--font-sans); cursor: pointer; }
 .nav-toggle svg { width: 18px; height: 18px; }
-.site-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s5); }
+.site-nav ul { list-style: none; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); } /* 16px between links so the longer gold button fits on one row */
 .site-nav a { color: var(--on-navy); text-decoration: none; font-size: .9375rem; padding-block: var(--s2); display: inline-block; }
 .site-nav a:hover { color: var(--white); text-decoration: underline; }
 .site-nav a[aria-current="page"] { color: var(--white); box-shadow: inset 0 -2px 0 var(--gold); }
-.site-nav a.nav-cv { background: var(--gold); color: var(--navy); padding: var(--s2) var(--s4); border-radius: var(--radius-sm); font-weight: 600; }
+.site-nav a.nav-cv { background: var(--gold); color: var(--navy); padding: var(--s2) var(--s4); border-radius: var(--radius-sm); font-weight: 600; white-space: nowrap; }
+.site-nav a.nav-cv[aria-current="page"] { color: var(--navy); box-shadow: inset 0 -3px 0 var(--navy-2); }
 .site-nav a.nav-cv:hover { background: #D4BA86; text-decoration: none; }
 
 /* Phones: keep the site name and Menu button on one row with either the fallback or the web font (prevents layout shift on font load) */
@@ -70,7 +71,8 @@ ul, ol { margin: 0; }
   .js .site-nav li { border-top: 1px solid var(--navy-line); }
   .js .site-nav a { display: block; padding: var(--s3) var(--s2); font-size: 1.0625rem; }
   .js .site-nav a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--gold); padding-left: var(--s4); }
-  .js .site-nav a.nav-cv { margin-top: var(--s3); text-align: center; }
+  .js .site-nav a.nav-cv { margin-top: var(--s3); text-align: center; white-space: normal; }
+  .js .site-nav a.nav-cv[aria-current="page"] { padding-left: var(--s2); box-shadow: none; }
 }
 
 /* ---- Page header (inner pages) ---- */
@@ -269,6 +271,8 @@ html:not(.js) .filters { display: none; } /* filters need JavaScript; shown from
 .profile-list { list-style: none; padding: 0; display: grid; gap: var(--s2); }
 .profile-list a, .profile-list .inactive { display: inline-flex; align-items: center; min-height: 44px; padding: 0 var(--s4); border: 1px solid var(--line); border-radius: var(--radius-sm); font-size: .9375rem; text-decoration: none; }
 .profile-list .inactive { color: var(--text-2); }
+.profile-list--icons a { gap: var(--s2); padding-left: var(--s3); }
+.p-icon { width: 20px; height: 20px; flex: none; color: var(--navy); }
 .doc-list { list-style: none; padding: 0; display: grid; gap: var(--s2); }
 .doc-list li { border: 1.5px dashed var(--line-strong); background: var(--gray-bg); border-radius: var(--radius-sm); padding: var(--s3) var(--s4); }
 .doc-list li.available { border-style: solid; background: var(--white); display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s3); }
@@ -349,3 +353,7 @@ html:not(.js) .g-empty { display: none; } /* without JavaScript the noscript not
   body { font-size: 11pt; }
 }
 #videos [data-gallery-section="videos"] { margin-top: var(--s5); }
+
+/* Academic Documents & Profiles page */
+.docs-grid { display: grid; gap: var(--s7); }
+@media (min-width: 900px) { .docs-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } }
